@@ -23,6 +23,8 @@ alias fuck='FUCKS=$(cat ~/.fucks 2>/dev/null); let "FUCKS+=1"; echo "$FUCKS" > ~
 alias fucksgiven='if [ ! -f ~/.fucks ]; then touch ~/.fucks; echo "0" > ~/.fucks; fi; FUCKS=$(cat ~/.fucks); echo "$FUCKS fucks given";'
 alias clearfucks='rm ~/.fucks 2>/dev/null;'
 
+alias make='.funnymake/funnymake'
+
 alias cmatrix='$HOME/utils/progs/cmatrix/cmatrix'
 alias cyber='$HOME/utils/progs/cmatrix/cmatrix -t "Cyber......"'
 
