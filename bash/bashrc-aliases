@@ -17,7 +17,7 @@ f_mkdird() {
     cd $1
 }
 alias mkdird=f_mkdird
-
+alias please='sudo !!'
 
 alias fuck='FUCKS=$(cat ~/.fucks 2>/dev/null); let "FUCKS+=1"; echo "$FUCKS" > ~/.fucks;'
 alias fucksgiven='if [ ! -f ~/.fucks ]; then touch ~/.fucks; echo "0" > ~/.fucks; fi; FUCKS=$(cat ~/.fucks); echo "$FUCKS fucks given";'
