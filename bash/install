@@ -1,0 +1,3 @@
+#!/bin/bash
+
+echo "source ~/utils/bash/bashrc-aliases" >> ~/.bashrc

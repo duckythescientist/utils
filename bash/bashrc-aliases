@@ -1,0 +1,25 @@
+alias sagi='sudo apt-get install'
+alias sude='sudo'
+
+alias lol='echo lolol'
+alias lolol='echo lolololololol'
+alias lololol='echo lolololololololololololololololol'
+alias lolololol='sl'
+alias cdd='cd ../'
+alias cddd='cd ../../'
+alias cdddd='cd ../../../'
+alias cddddd='cd ../../../../'
+alias cdcd='cd ../'
+alias cdcdcd='cd ../../'
+alias cdcdcdcd='cd ../../../'
+f_mkdird() {
+    mkdir $1
+    cd $1
+}
+alias mkdird=f_mkdird
+
+
+alias fuck='FUCKS=$(cat ~/.fucks 2>/dev/null); let "FUCKS+=1"; echo "$FUCKS" > ~/.fucks;'
+alias fucksgiven='if [ ! -f ~/.fucks ]; then touch ~/.fucks; echo "0" > ~/.fucks; fi; FUCKS=$(cat ~/.fucks); echo "$FUCKS fucks given";'
+alias clearfucks='rm ~/.fucks 2>/dev/null;'
+
