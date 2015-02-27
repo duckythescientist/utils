@@ -26,3 +26,6 @@ alias clearfucks='rm ~/.fucks 2>/dev/null;'
 alias cmatrix='$HOME/utils/progs/cmatrix/cmatrix'
 alias cyber='$HOME/utils/progs/cmatrix/cmatrix -t "Cyber......"'
 
+export PYTHONPATH=$PYTHONPATH:$HOME/utils/python
+export PATH=$PATH:$HOME/utils/bin
+
