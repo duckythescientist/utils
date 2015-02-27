@@ -5,7 +5,7 @@ def caesar(w, shift=13):
     for l in w:
         if l.islower():
             n += chr((ord(l)-ord('a')+shift)%26 + ord('a'))
-        else if l.isupper():
+        elif l.isupper():
             n += chr((ord(l)-ord('A')+shift)%26 + ord('A'))
         else:
             n += l
