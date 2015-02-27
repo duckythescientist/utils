@@ -1,0 +1,7 @@
+#!/bin/bash
+
+while :; do aplay -q --process-id-file /tmp/funnymake.pid /home/sean/Elevator_Music.mp3; done &
+LOOPPID=$!
+make $@
+kill -s SIGINT $(cat /tmp/funnymake.pid)
+kill $LOOPPID
