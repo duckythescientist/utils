@@ -24,3 +24,10 @@ alias fucksgiven='if [ ! -f ~/.fucks ]; then touch ~/.fucks; echo "0" > ~/.fucks
 alias clearfucks='rm ~/.fucks 2>/dev/null;'
 
 alias make='.funnymake/funnymake'
+
+alias cmatrix='$HOME/utils/progs/cmatrix/cmatrix'
+alias cyber='$HOME/utils/progs/cmatrix/cmatrix -t "Cyber......"'
+
+export PYTHONPATH=$PYTHONPATH:$HOME/utils/python
+export PATH=$PATH:$HOME/utils/bin
+

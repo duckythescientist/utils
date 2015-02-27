@@ -1,0 +1,97 @@
+--- cmatrix.c	2002-03-31 19:30:02.000000000 -0500
++++ new-cmatrix.c	2015-02-13 13:28:24.377920535 -0500
+@@ -68,6 +68,8 @@
+ int *spaces = NULL;			/* spaces left to fill */
+ int *updates = NULL;			/* What does this do again? :) */
+ 
++int * offset = NULL;
++
+ int va_system(char *str, ...)
+ {
+ 
+@@ -138,6 +140,9 @@
+     printf(" -V: Print version information and exit\n");
+     printf(" -u delay (0 - 10, default 4): Screen update delay\n");
+     printf(" -C [color]: Use this color for matrix (default green)\n");
++    printf(" -t [text]: Use arbitrary string text instead of\n");
++    printf("\trandom characters. This text cannot have spaces\n");
++    printf("\tand will not be used with old-style scrolling\n");
+ }
+ 
+ void version(void)
+@@ -173,6 +178,8 @@
+     for (i = 0; i <= LINES; i++)
+ 	matrix[i] = nmalloc(sizeof(cmatrix) * COLS);
+ 
++    offset = nmalloc(sizeof(int)*COLS);
++
+     if (length != NULL)
+ 	free(length);
+     length = nmalloc(COLS * sizeof(int));
+@@ -253,10 +260,22 @@
+     char *oldtermname, *syscmd = NULL;
+     int optchr, keypress;
+ 
++    char *matrixtext = NULL;
++
+     /* Many thanks to morph- (morph@jmss.com) for this getopt patch */
+     opterr = 0;
+-    while ((optchr = getopt(argc, argv, "abBfhlnosxVu:C:")) != EOF) {
++    while ((optchr = getopt(argc, argv, "abBfhlnosxVu:C:t:")) != EOF) {
+ 	switch (optchr) {
++    case 't':
++        if(optarg)
++            if(strchr(optarg, ' ') == NULL)
++                matrixtext = optarg;
++            else
++            {
++                printf("arbitrary text cannot have spaces\n");
++                exit(1);
++            }
++        break;
+ 	case 's':
+ 	    screensaver = 1;
+ 	    break;
+@@ -507,8 +526,11 @@
+ 			else if (matrix[0][j].val == -1
+ 				 && matrix[1][j].val == ' ') {
+ 			length[j] = (int) rand() % (LINES - 3) + 3;
+-			matrix[0][j].val =
+-			    (int) rand() % randnum + randmin;
++            offset[j] = (int) rand() % 0xFF;
++			matrix[0][j].val = matrixtext ? 
++                ((int) matrixtext[(offset[j])%strlen(matrixtext)])
++                : ((int) rand() % randnum + randmin);
++            
+ 
+ 			if ((int) rand() % 2 == 1)
+ 			    matrix[0][j].bold = 2;
+@@ -543,8 +565,9 @@
+ 			    continue;
+ 			}
+ 
+-			matrix[i][j].val =
+-			    (int) rand() % randnum + randmin;
++			matrix[i][j].val = matrixtext ?
++                ((int) matrixtext[(offset[j] + i)%strlen(matrixtext)])
++                :((int) rand() % randnum + randmin);
+ 
+ 			if (matrix[i - 1][j].bold == 2) {
+ 			    matrix[i - 1][j].bold = 1;
+@@ -607,14 +630,14 @@
+ 			if (console || xwindow)
+ 			    attron(A_ALTCHARSET);
+ 			if (bold == 2 ||
+-			    (bold == 1 && matrix[i][j].val % 2 == 0))
++			    (bold == 1 && (matrix[i][j].val ^ offset[j]) % 4 == 0))
+ 			    attron(A_BOLD);
+ 			if (matrix[i][j].val == -1)
+ 			    addch(' ');
+ 			else
+ 			    addch(matrix[i][j].val);
+ 			if (bold == 2 ||
+-			    (bold == 1 && matrix[i][j].val % 2 == 0))
++			    (bold == 1 && (matrix[i][j].val ^ offset[j]) % 4 == 0))
+ 			    attroff(A_BOLD);
+ 			if (console || xwindow)
+ 			    attroff(A_ALTCHARSET);
